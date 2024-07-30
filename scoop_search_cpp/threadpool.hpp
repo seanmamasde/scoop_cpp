@@ -15,11 +15,10 @@ class threadpool
 {
 public:
     explicit threadpool(size_t = std::thread::hardware_concurrency());
+    ~threadpool();
 
     template <class F, class... Args>
     auto enqueue(F&& f, Args&&... args) -> std::future<std::invoke_result_t<F, Args...>>;
-
-    ~threadpool();
 
 private:
     std::vector<std::thread> workers_;
@@ -40,8 +39,7 @@ inline threadpool::threadpool(const size_t threads) : stop_(false)
                     std::function<void()> task;
                     {
                         std::unique_lock<std::mutex> lock(this->queue_mutex_);
-                        this->condition_.wait(
-                            lock, [this] { return this->stop_ || !this->tasks_.empty(); });
+                        this->condition_.wait(lock, [this] { return this->stop_ || !this->tasks_.empty(); });
                         if (this->stop_ && this->tasks_.empty())
                             return;
                         task = std::move(this->tasks_.front());

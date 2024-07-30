@@ -14,6 +14,5 @@ inline std::vector<search_match> matches{};
 
 namespace search
 {
-    std::vector<search_match> search_bucket(const std::string& query,
-        const std::string& bucket_base);
+    std::vector<search_match> search_bucket(const std::string& query, const std::string& bucket_base);
 }

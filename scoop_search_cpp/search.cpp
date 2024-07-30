@@ -1,5 +1,6 @@
 ﻿#include "search.hpp"
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <future>
 #include <iostream>
@@ -24,13 +25,11 @@ namespace search
     bool check_bin(const std::string& bin, const std::string& query)
     {
         std::string lower_bin{ bin };
-        std::transform(lower_bin.begin(), lower_bin.end(), lower_bin.begin(),
-            tolower);
+        std::transform(lower_bin.begin(), lower_bin.end(), lower_bin.begin(), tolower);
         return lower_bin.find(query) != std::string::npos;
     }
 
-    search_match match_package(const std::string& manifest_path,
-        const std::string& query)
+    search_match match_package(const std::string& manifest_path, const std::string& query)
     {
         std::ifstream manifest_file(manifest_path);
         if (!manifest_file)
@@ -44,8 +43,7 @@ namespace search
 
         const std::string version = manifest.value("version", "");
         std::string lower_name = std::filesystem::path(manifest_path).stem().string();
-        std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(),
-            tolower);
+        std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), tolower);
 
         if (query.empty() || lower_name.find(query) != std::string::npos)
         {
@@ -75,13 +73,11 @@ namespace search
         return {};
     }
 
-    std::vector<search_match> search_bucket(const std::string& query,
-        const std::string& bucket_base)
+    std::vector<search_match> search_bucket(const std::string& query, const std::string& bucket_base)
     {
         std::vector<search_match> result{};
 
-        std::vector<std::string> package_names =
-            get_package_names(bucket_base + "/bucket");
+        std::vector<std::string> package_names = get_package_names(bucket_base + "/bucket");
         if (package_names.empty())
         {
             package_names = get_package_names(bucket_base);
@@ -102,8 +98,7 @@ namespace search
             }
         }
 
-        std::sort(result.begin(), result.end(),
-            [](const search_match& a, const search_match& b)
+        std::sort(result.begin(), result.end(), [](const search_match& a, const search_match& b)
             {
                 return a.name < b.name;
             });
