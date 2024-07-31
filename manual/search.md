@@ -1,11 +1,13 @@
 # Search
 
-> Acknowledgement: This project is inspired by [scoop-search](https://github.com/shilangyu/scoop-search)
+> **Acknowledgement: This project is inspired by [scoop-search](https://github.com/shilangyu/scoop-search)**
 
 ## Features
 
-Does the exact same thing as `scoop search`, but faster. The output format is a
-bit different, though.
+- Multithreaded search.
+- Does the exact same thing as `scoop search`, but faster. The output format is a bit different, though.
+  > [!IMPORTANT]
+  > The output will be the same as the original `scoop search` command in the future.
 
 ## Installation
 
@@ -16,8 +18,7 @@ Manually download the latest release from the release section or build it yourse
 
 ## PowerShell hook
 
-You do not have to use the `scoop_search_cpp.exe ...` to look for a
-package/binary, instead put
+You do not have to use the `scoop_cpp.exe search ...` to look for a package/binary, instead put
 
 ```powershell
 Invoke-Expression (&scoop_search_cpp.exe --hook)
@@ -27,7 +28,8 @@ in your PowerShell profile, and it will run whenever you use `scop search ...`.
 
 ## Command Prompt wrapper
 
-```cmd
+Still working on this.
+<!-- ```cmd
 @echo off
 
 if "%1" == "search" (
@@ -42,11 +44,7 @@ set "args=%*"
 set "newargs=%args:* =%"
 scoop_search_cpp.exe %newargs%
 goto :eof
-```
-
-## Requirements
-
-You need `nlohmann-json` installed via `vcpkg`.
+``` -->
 
 ## Benchmark
 

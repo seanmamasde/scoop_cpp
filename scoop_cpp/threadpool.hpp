@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <condition_variable>
 #include <functional>
@@ -8,8 +8,8 @@
 #include <queue>
 #include <stdexcept>
 #include <thread>
-#include <vector>
 #include <type_traits>
+#include <vector>
 
 class threadpool
 {
@@ -18,7 +18,7 @@ public:
     ~threadpool();
 
     template <class F, class... Args>
-    auto enqueue(F&& f, Args&&... args) -> std::future<std::invoke_result_t<F, Args...>>;
+    auto enqueue(F&& f, Args &&...args) -> std::future<std::invoke_result_t<F, Args...>>;
 
 private:
     std::vector<std::thread> workers_;
@@ -52,7 +52,7 @@ inline threadpool::threadpool(const size_t threads) : stop_(false)
 }
 
 template <class F, class... Args>
-auto threadpool::enqueue(F&& f, Args&&... args) -> std::future<std::invoke_result_t<F, Args...>>
+auto threadpool::enqueue(F&& f, Args &&...args) -> std::future<std::invoke_result_t<F, Args...>>
 {
     using return_type = std::invoke_result_t<F, Args...>;
 

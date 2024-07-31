@@ -15,31 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="args.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="env.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="search.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="args.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="env.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="search.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="threadpool.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
