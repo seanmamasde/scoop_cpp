@@ -29,9 +29,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="thread_pool_old.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="env.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

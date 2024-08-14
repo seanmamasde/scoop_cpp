@@ -1,19 +1,20 @@
 #pragma once
 
-#include <memory>
 #include <functional>
-#include <map>
+#include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
-#include "env.hpp"
-#include "command.hpp"
 #include "../search/search.hpp"
+#include "command.hpp"
+#include "env.hpp"
 
 class parser
 {
 public:
     using command_ptr = std::unique_ptr<command>;
+    using command_map = std::unordered_map<std::string, std::function<command_ptr()>>;
 
     parser(int argc, char* argv[], env& env);
     ~parser() = default;
@@ -28,8 +29,10 @@ public:
 
 private:
     std::vector<std::string> argv_;
-    const std::unordered_map<std::string, std::function<std::unique_ptr<command>()>> command_map_ =
-    { { "search", [this]() -> command_ptr
+
+    command_map command_map_ =
+    {
+        { "search", [this]() -> command_ptr
             {
                 return std::make_unique<search_command>(this->argv_);
             }

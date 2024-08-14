@@ -158,7 +158,6 @@
     <ClInclude Include="constants.hpp" />
     <ClInclude Include="env.hpp" />
     <ClInclude Include="thread_pool.hpp" />
-    <ClInclude Include="thread_pool_old.hpp" />
     <ClInclude Include="util.hpp" />
   </ItemGroup>
   <ItemGroup>

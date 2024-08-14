@@ -6,12 +6,17 @@
 
 const std::string hook = 1 + R"(
 function scoop { 
-    if ($args[0] -eq "search") { 
-        scoop_search_cpp.exe @($args | Select-Object -Skip 1) 
+    $commands = @(
+        "search"
+    ) # Array of commands to match
+
+    if ($commands -contains $args[0]) { 
+        scoop_cpp.exe @($args) 
     } else { 
         scoop.ps1 @args 
     } 
 })";
+
 
 const auto usage = 1 + R"(
 Usage: scoop <command> [<args>]
@@ -19,7 +24,7 @@ Usage: scoop <command> [<args>]
 Available commands are listed below.
 
 Type 'scoop help <command>' to get more help for a specific command.
-)"+ dye::green("Command    Summary\n-------    -------\n") + R"(
+)" + dye::green("\nCommand    Summary\n-------    -------") + R"(
 alias      Manage scoop aliases
 bucket     Manage Scoop buckets
 cache      Show or clear the download cache

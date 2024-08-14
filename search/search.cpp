@@ -13,10 +13,10 @@
 #include <nlohmann/json.hpp>
 #include <nlohmann/json_fwd.hpp>
 
-#include "search.hpp"
 #include "../scoop_cpp/color.hpp"
 #include "../scoop_cpp/env.hpp"
 #include "../scoop_cpp/thread_pool.hpp"
+#include "search.hpp"
 
 
 search_command::search_command(const std::vector<std::string>& queries)
@@ -90,7 +90,7 @@ search_command::match search_command::match_package(const std::string& manifest_
                 std::sregex_iterator end;
 
                 size_t last_pos = 0;
-                for (auto it = begin; it != end; ++it)
+                for (auto &it = begin; it != end; ++it)
                 {
                     has_matched = true;
                     std::smatch match = *it;

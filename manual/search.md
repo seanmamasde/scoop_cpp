@@ -5,9 +5,9 @@
 ## Features
 
 - Multithreaded search.
-- Does the exact same thing as `scoop search`, but faster. The output format is a bit different, though.
-  > [!IMPORTANT]
-  > The output will be the same as the original `scoop search` command in the future.
+- Does the exact same thing as `scoop search`, but faster. 
+- The output format is a bit different from the original command, but queried word is colorized.
+- Added `--regex` flag to enable search with regex.
 
 ## Installation
 
@@ -24,7 +24,7 @@ You do not have to use the `scoop_cpp.exe search ...` to look for a package/bina
 Invoke-Expression (&scoop_search_cpp.exe --hook)
 ```
 
-in your PowerShell profile, and it will run whenever you use `scop search ...`.
+in your PowerShell profile, and it will run whenever you use `scoop search ...`.
 
 ## Command Prompt wrapper
 
@@ -59,33 +59,33 @@ Tested with:
 Testing against the built-in `scoop search` command:
 
 ```PowerShell
-> hyperfine --warmup 1 'scoop_search_cpp.exe search google' 'scoop search google'
-Benchmark 1: C:\Users\seanma\source\projects\scoop_cpp\x64\Release\scoop_search_cpp.exe search google
-  Time (mean ± σ):     111.8 ms ±   5.8 ms    [User: 360.8 ms, System: 402.6 ms]
-  Range (min … max):   103.8 ms … 127.1 ms    14 runs
+> hyperfine --warmup 1 ".\scoop_cpp.exe search google" "scoop search google"
+Benchmark 1: .\scoop_cpp.exe search google
+  Time (mean ± σ):      78.4 ms ±   2.3 ms    [User: 289.7 ms, System: 340.6 ms]
+  Range (min … max):    74.4 ms …  82.6 ms    20 runs
 
 Benchmark 2: scoop search google
-  Time (mean ± σ):      3.243 s ±  0.050 s    [User: 0.060 s, System: 0.095 s]
-  Range (min … max):    3.195 s …  3.359 s    10 runs
+  Time (mean ± σ):      2.329 s ±  0.025 s    [User: 0.057 s, System: 0.052 s]
+  Range (min … max):    2.294 s …  2.370 s    10 runs
 
 Summary
-  C:\Users\seanma\source\projects\scoop_cpp\x64\Release\scoop_search_cpp.exe search google ran
-   28.99 ± 1.58 times faster than scoop search google
+  .\scoop_cpp.exe search google ran
+   29.71 ± 0.93 times faster than scoop search google
 ```
 
 Testing against the [scoop-search](https://github.com/shilangyu/scoop-search) project:
 
 ```PowerShell
-> hyperfine --warmup 1 'scoop_search_cpp.exe search google' 'scoop-search google'
-Benchmark 1: C:\Users\seanma\source\projects\scoop_cpp\x64\Release\scoop_search_cpp.exe search google
-  Time (mean ± σ):     102.4 ms ±   2.9 ms    [User: 394.0 ms, System: 436.0 ms]
-  Range (min … max):    99.7 ms … 110.0 ms    14 runs
+> hyperfine --warmup 1 ".\scoop_cpp.exe search google" "scoop-search google"
+Benchmark 1: .\scoop_cpp.exe search google
+  Time (mean ± σ):      77.0 ms ±   3.3 ms    [User: 312.1 ms, System: 341.3 ms]
+  Range (min … max):    74.3 ms …  88.0 ms    19 runs
 
 Benchmark 2: scoop-search google
-  Time (mean ± σ):     143.6 ms ±   9.4 ms    [User: 375.4 ms, System: 469.3 ms]
-  Range (min … max):   134.0 ms … 161.1 ms    12 runs
+  Time (mean ± σ):      93.8 ms ±   5.6 ms    [User: 250.1 ms, System: 287.3 ms]
+  Range (min … max):    87.6 ms … 104.5 ms    17 runs
 
 Summary
-  C:\Users\seanma\source\projects\scoop_cpp\x64\Release\scoop_search_cpp.exe search google ran
-    1.40 ± 0.10 times faster than scoop-search google
+  .\scoop_cpp.exe search google ran
+    1.22 ± 0.09 times faster than scoop-search google
 ```

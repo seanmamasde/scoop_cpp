@@ -13,6 +13,7 @@
 #pragma once
 
 #include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <string>

@@ -1,15 +1,16 @@
 #pragma once
 
-#include <condition_variable>
 #include <coroutine>
-#include <cstdint>
+#include <exception>
 #include <functional>
 #include <future>
 #include <iostream>
 #include <list>
 #include <mutex>
 #include <queue>
+#include <stdexcept>
 #include <thread>
+#include <type_traits>
 
 struct task_promise;
 
@@ -49,9 +50,7 @@ struct task_promise
 class thread_pool
 {
 public:
-    explicit thread_pool(
-        const std::size_t thread_count = std::thread::hardware_concurrency())
-        : threads_()
+    explicit thread_pool(const std::size_t thread_count = std::thread::hardware_concurrency())
     {
         for (std::size_t i = 0; i < thread_count; ++i)
         {
@@ -62,20 +61,33 @@ public:
 
     ~thread_pool() { shutdown(); }
 
+    // disable copy
+    thread_pool(const thread_pool&) = delete;
+    thread_pool& operator=(const thread_pool&) = delete;
+
+    // enable move
+    thread_pool(thread_pool&&) noexcept = default;
+    thread_pool& operator=(thread_pool&&) noexcept = default;
+
+
     template <class F, class... Args>
-    auto enqueue(F&& f, Args &&...args)
-        -> std::future<std::invoke_result_t<F, Args...>>
+    auto enqueue(F&& f, Args&&... args) -> std::future<std::invoke_result_t<F, Args...>>
     {
         using return_type = std::invoke_result_t<F, Args...>;
 
         auto task = std::make_shared<std::packaged_task<return_type()>>(
-            std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+            [f = std::forward<F>(f), ...args = std::forward<Args>(args)]() mutable
+            {
+                return std::invoke(std::move(f), std::move(args)...);
+            });
 
         std::future<return_type> res = task->get_future();
         {
             std::unique_lock<std::mutex> lock(mutex_);
             if (stop_thread_)
+            {
                 throw std::runtime_error("enqueue on stopped thread_pool");
+            }
 
             task_queue_.emplace([task]() { (*task)(); });
         }

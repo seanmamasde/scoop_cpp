@@ -1,17 +1,20 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
-#include "parser.hpp"
+#include "color.hpp"
 #include "constants.hpp"
+#include "env.hpp"
+#include "parser.hpp"
 
 parser::parser(const int argc, char* argv[], env& env)
 {
-    for(int i = 0; i < argc; ++i)
+    for (int i = 0; i < argc; ++i)
     {
         argv_.emplace_back(argv[i]);
     }
 
-    if (argc == 1 && std::string(argv[0]) == "scoop")
+    if (argc == 1)
     {
         std::cout << usage;
         return;
