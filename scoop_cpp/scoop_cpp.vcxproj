@@ -24,6 +24,7 @@
     <ProjectGuid>{41f4e114-2b46-4e92-9439-612c49d6c982}</ProjectGuid>
     <RootNamespace>scoopcpp</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>scoop_cpp</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -110,8 +111,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <Optimization>Disabled</Optimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,8 +133,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,16 +146,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="arg_parser.cpp" />
+    <ClCompile Include="parser.cpp" />
     <ClCompile Include="env.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="arg_parser.hpp" />
+    <ClInclude Include="color.hpp" />
+    <ClInclude Include="command.hpp" />
+    <ClInclude Include="parser.hpp" />
+    <ClInclude Include="constants.hpp" />
     <ClInclude Include="env.hpp" />
-    <ClInclude Include="threadpool.hpp" />
+    <ClInclude Include="thread_pool.hpp" />
+    <ClInclude Include="thread_pool_old.hpp" />
+    <ClInclude Include="util.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\list\list.vcxproj">
+      <Project>{654e82e2-db42-4678-a97d-64480bf34da4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\search\search.vcxproj">
       <Project>{eec003e3-cc05-4e19-a8c7-dead7febf489}</Project>
     </ProjectReference>

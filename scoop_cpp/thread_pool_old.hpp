@@ -11,11 +11,11 @@
 #include <type_traits>
 #include <vector>
 
-class threadpool
+class thread_pool
 {
 public:
-    explicit threadpool(size_t = std::thread::hardware_concurrency());
-    ~threadpool();
+    explicit thread_pool(size_t = std::thread::hardware_concurrency());
+    ~thread_pool();
 
     template <class F, class... Args>
     auto enqueue(F&& f, Args &&...args) -> std::future<std::invoke_result_t<F, Args...>>;
@@ -29,7 +29,7 @@ private:
     bool stop_;
 };
 
-inline threadpool::threadpool(const size_t threads) : stop_(false)
+inline thread_pool::thread_pool(const size_t threads) : stop_(false)
 {
     for (size_t i = 0; i < threads; ++i)
         workers_.emplace_back([this]
@@ -52,7 +52,7 @@ inline threadpool::threadpool(const size_t threads) : stop_(false)
 }
 
 template <class F, class... Args>
-auto threadpool::enqueue(F&& f, Args &&...args) -> std::future<std::invoke_result_t<F, Args...>>
+auto thread_pool::enqueue(F&& f, Args &&...args) -> std::future<std::invoke_result_t<F, Args...>>
 {
     using return_type = std::invoke_result_t<F, Args...>;
 
@@ -71,7 +71,7 @@ auto threadpool::enqueue(F&& f, Args &&...args) -> std::future<std::invoke_resul
     return res;
 }
 
-inline threadpool::~threadpool()
+inline thread_pool::~thread_pool()
 {
     {
         std::unique_lock lock(queue_mutex_);

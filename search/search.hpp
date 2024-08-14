@@ -1,39 +1,47 @@
 #pragma once
 
-#include <string>
-#include <vector>
-
-#include "../scoop_cpp/arg_parser.hpp"
+#include "../scoop_cpp/color.hpp"
+#include "../scoop_cpp/command.hpp"
+#include "../scoop_cpp/env.hpp"
 
 class search_command final : public command
 {
-private:
-    std::string query_;
-
 public:
     struct match
     {
-        std::string name{};
-        std::string version{};
-        std::string bin{};
+        // changed to colorful strings for better output
+        dye::colorful<std::string> name;
+        std::string version;
+        dye::colorful<std::string> bin;
     };
 
     struct result
     {
-        std::string bucket_name{};
-        std::vector<match> match_results{};
+        std::string bucket_name;
+        std::vector<match> match_results;
 
-        result(std::string name, std::vector<match> res)
-            : bucket_name(std::move(name)), match_results(std::move(res))
+        result(std::string name, const std::vector<match>& res)
+            : bucket_name(std::move(name)), match_results(res)
         {
         }
     };
 
-    std::vector<match> matches{};
+    explicit search_command(const std::vector<std::string>& queries);
+    ~search_command() override = default;
+    // disable copy
+    search_command(const search_command&) = delete;
+    search_command& operator=(const search_command&) = delete;
+    // enable move
+    search_command(search_command&&) noexcept = default;
+    search_command& operator=(search_command&&) noexcept = default;
 
-    explicit search_command(const std::vector<std::string>& vq);
-    void execute(env& env) override;
+    void execute(env &env) override;
+    [[nodiscard]] match match_package(const std::string& manifest_path) const;
+    [[nodiscard]] std::vector<match>search_bucket(const std::string& bucket_base) const;
 
-    [[nodiscard]] match match_package(const std::string& manifest_path, const std::string& query) const;
-    [[nodiscard]] std::vector<match> search_bucket(const std::string& query, const std::string& bucket_base) const;
+private:
+    std::string query_;
+
+    // flags
+    bool regex_ = false;
 };
